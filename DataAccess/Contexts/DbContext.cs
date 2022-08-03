@@ -17,5 +17,10 @@ namespace DataAccess.Contexts
             Owners = new List<Owner>();
             Admins = new List<Admin>();
         }
+        public static List<Admin> Admins { get; set; }
+        public static List<Owner> Owners { get; set; }
+        public static List<Drugstore> Drugstores { get; set; }
+        public static List<Druggist> Druggists { get; set; }
+        public static List<Drug> Drugs { get; set; }
     }
 }
