@@ -19,7 +19,7 @@ namespace Manage.Controllers
 
         #region Create 
 
-        public void Create()
+        public void CreateOwner()
         {
             Name: ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, "Please , enter owner name :");
             string name = Console.ReadLine();
@@ -148,7 +148,7 @@ namespace Manage.Controllers
         #endregion
 
         #region GetAll
-        public void GetAll()
+        public void GetAllOwner()
         {
             var owners = _ownerRepository.GetAll();
             if (owners.Count > 0)

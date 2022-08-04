@@ -21,7 +21,7 @@ namespace Manage.Controllers
 
         #region Create
 
-        public void Create()
+        public void CreateDrug()
         {
             var drugStores = _drugstoreRepository.GetAll();
 
@@ -162,7 +162,7 @@ namespace Manage.Controllers
         #endregion
 
         #region GetAll
-        public void GetAll()
+        public void GetAllDrug()
         {
             var drugs = _drugRepository.GetAll();
             if (drugs.Count > 0)
@@ -182,7 +182,7 @@ namespace Manage.Controllers
         #endregion
 
         #region GetAllDrugsByDrugstore
-        public void GetAllDrugByStore()
+        public void GetAllDrugsByStore()
         {
             var drugstores = _drugstoreRepository.GetAll();
             if (drugstores.Count > 0)

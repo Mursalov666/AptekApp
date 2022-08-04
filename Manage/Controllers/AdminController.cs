@@ -20,10 +20,10 @@ namespace Manage.Controllers
 
         public Admin Authenticate()
         {
-            ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, "Enter admin username :");
+            ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter admin username :");
             string username = Console.ReadLine();
 
-            ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, "Enter admin password :");
+            ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter admin password :");
             string password = Console.ReadLine();
 
             var admin = _adminRepository.Get(a => a.Username.ToLower() == username.ToLower()

@@ -23,7 +23,7 @@ namespace Manage.Controllers
         }
         #region Create
 
-        public void Create()
+        public void CreateDrugStore()
         {
             var owners = _ownerRepository.GetAll();
             if (owners.Count > 0)
@@ -83,7 +83,7 @@ namespace Manage.Controllers
 
         #region Update 
 
-        public void Update()
+        public void UpdateDrugStore()
         {
             var drugstores = _drugstoreRepository.GetAll();
             if (drugstores.Count > 0)
@@ -174,7 +174,7 @@ namespace Manage.Controllers
 
         #region Delete
 
-        public void Delete()
+        public void DeleteDrugStore()
         {
             var drugstores = _drugstoreRepository.GetAll();
             if (drugstores.Count > 0)
@@ -215,7 +215,7 @@ namespace Manage.Controllers
 
         #region GetAll
 
-        public void GetAll()
+        public void GetAllDrugStore()
         {
             var drugstores = _drugstoreRepository.GetAll();
             if (drugstores.Count > 0)
@@ -236,7 +236,7 @@ namespace Manage.Controllers
 
         #region GetAllDrugstoresByOwner
 
-        public void GetAllDrugstoresByOwner()
+        public void GetAllDrugStoreByOwner()
         {
             var drugstores = _drugstoreRepository.GetAll();
             var ownerstores = _ownerRepository.GetAll();
@@ -255,7 +255,7 @@ namespace Manage.Controllers
         #endregion
 
         #region Sale 
-        public void Sale()
+        public void DrugstoreSale()
         {
             var drugs = _drugRepository.GetAll();
             if (drugs.Count>0)
