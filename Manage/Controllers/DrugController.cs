@@ -1,4 +1,5 @@
-﻿using Core.Helpers;
+﻿using Core.Entities;
+using Core.Helpers;
 using DataAccess.Repositories.Implementations;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,228 @@ namespace Manage.Controllers
             {
 
             }
-        } 
+        }
 
+        #endregion
+
+        #region Update
+        public void UpadateDrug()
+        {
+            var drugs = _drugRepository.GetAll();
+            if (drugs.Count > 0)
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugs list : ");
+                foreach (var drug in drugs)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, $"id : {drug.Id} , name : {drug.Name} , price : {drug.Price} , count : {drug.Count} , drugstore : {drug.Drugstores.Name}");
+                }
+            Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter drug id:");
+                string drugId = Console.ReadLine();
+                int id;
+                bool result = int.TryParse(drugId, out id);
+                if (result)
+                {
+                    var drug = _drugRepository.Get(d => d.Id == id);
+                    if (drug != null)
+                    {
+                        string oldname = drug.Name;
+                        double oldprice = drug.Price;
+                        string oldcount = drug.Count;
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter new drug name :");
+                        string newName = Console.ReadLine();
+                    Price: ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter new drug price :");
+                        string newPrice = Console.ReadLine();
+                        double price;
+                        result = double.TryParse(newPrice, out price);
+                        if (result)
+                        {
+                        Count: ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter new drug count");
+                            string newCount = Console.ReadLine();
+                            int count;
+                            result = int.TryParse(newCount, out count);
+                            if (result)
+                            {
+                                var newDrug = new Drug
+                                {
+                                    Name = newName,
+                                    Price = price,
+                                    Count = newCount
+                                };
+                                _drugRepository.Update(drug);
+                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"Oldname : {oldname} , Oldprice : {oldprice} , Oldcount : {oldcount} is update to: name:{newName} , price : {newPrice} , count : {newCount}");
+
+                            }
+                            ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter count in correct format");
+                            goto Count;
+                        }
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter price in correct format");
+                        goto Price;
+                    }
+                    else
+                    {
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "This drug doesn't exist");
+                    }
+                }
+                else
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter id in correct format");
+                    goto Id;
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There is no any drugs");
+            }
+        }
+
+        #endregion
+
+        #region Delete 
+        public void DeleteDrug()
+        {
+            var drugs = _drugRepository.GetAll();
+            if (drugs.Count > 0)
+            {
+            All: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugs list : ");
+                foreach (var drug in drugs)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta , $"id : {drug.Id} , name:{drug.Name} , price : {drug.Price} , count:{drug.Count} drugstore:{drug.Drugstores.Name}");
+                }
+            Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter drug id :");
+                string drugId = Console.ReadLine();
+                int id;
+                bool result = int.TryParse(drugId, out id);
+                if (result)
+                {
+                    var drug = _drugRepository.Get(d => d.Id == id);
+                    if (drug != null)
+                    {
+                        _drugRepository.Delete(drug);
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"id : {drug.Id} , name:{drug.Name} - Deleted");
+                    }
+                    else
+                    {
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "This drug doesn't exist");
+                        goto All;
+                    }
+                }
+                else
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter id in correct format !");
+                    goto Id;
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There is no any drug");
+            }
+        }
+
+
+        #endregion
+
+        #region GetAll
+        public void GetAll()
+        {
+            var drugs = _drugRepository.GetAll();
+            if (drugs.Count > 0)
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drug list :");
+                foreach (var drug in drugs)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, $"id : {drug.Id} , name : {drug.Name} , price : {drug.Price} , count : {drug.Count} , drugstore : {drug.Drugstores.Name}");
+                }
+
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There are no any owner");
+            }
+        }
+        #endregion
+
+        #region GetAllDrugsByDrugstore
+        public void GetAllDrugByStore()
+        {
+            var drugstores = _drugstoreRepository.GetAll();
+            if (drugstores.Count > 0)
+            {
+            All: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugstores list :");
+                foreach (var drugstore in drugstores)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, $"id : {drugstore.Id} , name : {drugstore.Name} , adress : {drugstore.Adress} , contactNumber : {drugstore.ContactNumber}");
+                }
+            Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter drugstore id :");
+                string drugstoreId = Console.ReadLine();
+                int id;
+                bool result = int.TryParse(drugstoreId, out id);
+                if (result)
+                {
+                    var drugstore = _drugstoreRepository.Get(d => d.Id == id);
+                    if (drugstore != null)
+                    {
+                        var drugs = _drugRepository.GetAll(d => d.Drugstores != null ? d.Drugstores.Id == drugstore.Id : false);
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "The drugs of drugsore :");
+                        foreach (var drug in drugs)
+                        {
+                            ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, $"id : {drug.Id} , name : {drug.Name} , price : {drug.Price} , count : {drug.Count}");
+                        }
+                    }
+                    else
+                    {
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "This drugstore doesn't exist");
+                        goto All;
+                    }
+                }
+                else
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter id in correct format !");
+                    goto Id;
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There is no any drugstores");
+            }
+        }
+        #endregion
+
+        #region Filter
+        public void DrugFilter()
+        {
+            var drugs = _drugRepository.GetAll();
+            if (drugs.Count > 0)
+            {
+            Price: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "Please , enter filter price :");
+                string filterprice = Console.ReadLine();
+                double price;
+                bool result = double.TryParse(filterprice, out price);
+                if (result)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkBlue, "All drugs list :");
+                    foreach (var drug in drugs)
+                    {
+                        if (drug.Price < price)
+                        {
+                            ConsoleHelper.WriteTextWithColor(ConsoleColor.Cyan, $"id : {drug.Id} , name : {drug.Name} , price : {drug.Price} , count : {drug.Count}");
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter price in correct format !");
+                    goto Price;
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There is no any drug");
+            }
+
+
+        }
         #endregion
     }
 }
