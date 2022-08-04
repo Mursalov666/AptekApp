@@ -11,9 +11,10 @@ namespace Manage.Controllers
 {
     public class DrugstoreController
     {
-        private DrugRepository _drugRepository;
         private DrugstoreRepository _drugstoreRepository;
+        private DrugRepository _drugRepository;
         private OwnerRepository _ownerRepository;
+        private DruggistRepository druggistRepository;
         public DrugstoreController()
         {
             _drugRepository = new DrugRepository();
@@ -254,6 +255,77 @@ namespace Manage.Controllers
         #endregion
 
         #region Sale 
+        public void Sale()
+        {
+            var drugs = _drugRepository.GetAll();
+            if (drugs.Count>0)
+            {
+              AllDrugs:  ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugs : ");
+                foreach (var drug in drugs)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, $"id : {drug.Id} , name : {drug.Name} , price : {drug.Price} , count : {drug.Count}");
+                }
+               id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "Please , enter drugs id :");
+                string drugId=Console.ReadLine();
+                int id;
+                bool result = int.TryParse(drugId, out id);
+                if (result)
+                {
+                    var drug = _drugRepository.Get(d => d.Id == id);
+                    if (drug!=null)
+                    {
+                      DrugsCount:  ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "Please , enter drug count : ");
+                        string drugCount = Console.ReadLine();
+                        int count;
+                        result=int.TryParse(drugCount,out count);
+                        if (result)
+                        {
+                            if (count<drug.CurrentCount)
+                            {
+
+                                drug.CurrentCount = drug.CurrentCount - count;
+                               double SumPrice= drug.Price * count;
+                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Yellow, "This drug is available in the pharmacy. Do you want to buy??? (yes or no)");
+                                string text=Console.ReadLine();
+                                if (text=="yes".ToLower())
+                                {
+                                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"id : {drug.Id} , Name : {drug.Name} , Sumprice : {SumPrice} Drugstore - id : {drug.Id} , Name : {drug.Name} , Drugcount:{drug.CurrentCount}");
+                                }
+                                else if (text=="no".ToLower())
+                                {
+                                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Cyan, "Thank you");
+                                }
+                              
+                            }
+                            else
+                            {
+                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "This amount of drug is not available in the pharmacy");
+                                goto DrugsCount; 
+                            }
+                        }
+                        else
+                        {
+                            ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter count in correct format");
+                            goto DrugsCount;
+                        }
+                    }
+                    else
+                    {
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "This drug doesn't exist");
+                        goto AllDrugs;
+                    }
+                }
+                else
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter id in correct format");
+                    goto id;
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There is no any drug");
+            }
+        }
 
         #endregion
     }
