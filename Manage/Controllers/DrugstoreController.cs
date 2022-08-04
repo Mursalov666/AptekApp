@@ -170,5 +170,91 @@ namespace Manage.Controllers
         }
 
         #endregion
+
+        #region Delete
+
+        public void Delete()
+        {
+            var drugstores = _drugstoreRepository.GetAll();
+            if (drugstores.Count > 0)
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugstores list :");
+                foreach (var drugstore in drugstores)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Blue, $" Drugstore id : {drugstore.Id} Owner : {drugstore.Owner.Name}");
+                }
+                Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, "Please , enter drugstore id :");
+                int chosenId;
+                string id = Console.ReadLine();
+                var result = int.TryParse(id, out chosenId);
+                if (result)
+                {
+                    var drugstore = _drugstoreRepository.Get(d => d.Id == chosenId);
+                    if (drugstore != null)
+                    {
+                        string name = drugstore.Name;
+                        _drugstoreRepository.Delete(drugstore);
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, $"{name} is successfuly deleted");
+                    }
+                    else
+                    {
+                        ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter correct id !");
+                        goto Id;
+                    }
+                }
+                else
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter id in correct format");
+                    goto Id;
+                }
+            }
+        }
+
+        #endregion
+
+        #region GetAll
+
+        public void GetAll()
+        {
+            var drugstores = _drugstoreRepository.GetAll();
+            if (drugstores.Count > 0)
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugstores list :");
+                foreach (var drugstore in drugstores)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Blue, $" Owner : {drugstore.Owner.Name} {drugstore.Owner.Surname}");
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "There ary no any drugstores");
+            }
+        }
+
+        #endregion
+
+        #region GetAllDrugstoresByOwner
+
+        public void GetAllDrugstoresByOwner()
+        {
+            var drugstores = _drugstoreRepository.GetAll();
+            var ownerstores = _ownerRepository.GetAll();
+            if (true)
+            {
+                foreach (var drugstore in drugstores)
+                {
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Blue, $"Owner : {drugstore.Owner.Name} {drugstore.Owner.Surname}");
+                }
+            }
+            else
+            {
+                ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, " There are no owners and drugstores");
+            }
+        }
+        #endregion
+
+        #region Sale 
+
+        #endregion
     }
 }

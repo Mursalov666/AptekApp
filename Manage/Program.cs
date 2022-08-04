@@ -1,13 +1,14 @@
-﻿namespace Manage
+﻿using Manage.Controllers;
+
+namespace Manage
 {
     internal class Program
     {
         static void Main()
         {
-            GroupController groupController = new GroupController();
-            StudentController studentController = new StudentController();
+            DrugController drugController = new DrugController();
+            DrugstoreController drugstoreController = new DrugstoreController();
             AdminController adminController = new AdminController();
-            TeacherController teacherController = new TeacherController();
         }
     }
 }
