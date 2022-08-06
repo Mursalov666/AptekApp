@@ -23,7 +23,7 @@ namespace Manage.Controllers
         {
             Name: ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, "Please , enter owner name :");
             string name = Console.ReadLine();
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name) && name!=" ")
             {
                 ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, "Please , enter owner surname :");
                 string surname = Console.ReadLine();
