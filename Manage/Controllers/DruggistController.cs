@@ -156,15 +156,13 @@ namespace Manage.Controllers
                                     var drugstore = _drugstoreRepository.Get(d => d.Id == storeid);
                                     if (drugstore != null)
                                     {
-                                        var newDruggist = new Druggist()
-                                        {
-                                            Name = newName,
-                                            Surname = newSurname,
-                                            Age = age,
-                                            Experience = experience,
-                                            Drugstore = drugstore,
+                                        druggist.Name = newName;
+                                        druggist.Surname = newSurname;
+                                        druggist.Age = age;
+                                        druggist.Experience = experience;
+                                        druggist.Drugstore = drugstore;
 
-                                        };
+                                        
                                         _druggistRepository.Update(druggist);
                                         ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"Oldname : {oldname} , Oldsurname : {oldsurname} , Oldage : {oldage} Update to : Newname : {newName} , Newsurname : {newSurname} , Newage : {age} , Newexperience : {experience} , newDrugstore:{drugstore}");
                                     }

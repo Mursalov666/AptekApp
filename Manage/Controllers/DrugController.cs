@@ -64,7 +64,7 @@ namespace Manage.Controllers
                                     Drugstores = drugStore,
                                 };
                                 _drugRepository.Create(drug);
-                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"name : {drugName} , price : {priceDrug} , count : {count} , drugstore : {drug.Drugstores.Name}is created drug");
+                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"name : {drugName} , price : {priceDrug} , count : {count} , drugstore : {drug.Drugstores.Name} is created drug");
 
                             }
                             else
@@ -138,14 +138,13 @@ namespace Manage.Controllers
                             result = int.TryParse(newCount, out count);
                             if (result)
                             {
-                                var newDrug = new Drug
-                                {
-                                    Name = newName,
-                                    Price = price,
-                                    Count = count
-                                };
+
+                                drug.Name = newName;
+                                drug.Price = price;
+                                drug.Count = count;
+
                                 _drugRepository.Update(drug);
-                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"Oldname : {oldname} , Oldprice : {oldprice} , Oldcount : {oldcount} is update to: name:{newName} , price : {newPrice} , count : {count}");
+                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"Oldname : {oldname} , Oldprice : {oldprice} , Oldcount : {oldcount} is update to: name:{newName} , price : {price} , count : {count}");
 
                             }
                             ConsoleHelper.WriteTextWithColor(ConsoleColor.Red, "Please , enter count in correct format");
@@ -182,7 +181,7 @@ namespace Manage.Controllers
             All: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "All drugs list : ");
                 foreach (var drug in drugs)
                 {
-                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta , $"id : {drug.Id} , name:{drug.Name} , price : {drug.Price} , count:{drug.Count} drugstore:{drug.Drugstores.Name}");
+                    ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, $"id : {drug.Id} , name:{drug.Name} , price : {drug.Price} , count:{drug.Count} drugstore:{drug.Drugstores.Name}");
                 }
             Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, "Please , enter drug id :");
                 string drugId = Console.ReadLine();

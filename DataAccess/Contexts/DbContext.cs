@@ -19,7 +19,7 @@ namespace DataAccess.Contexts
             Admins = new List<Admin>();
 
             Admins = new List<Admin>();
-            string password1 = "2002";
+            string password1 = "1111";
             var hashedPassword1 = PasswordHasher.Encrypt(password1);
             Admin admin1 = new Admin("Raqif", hashedPassword1);
             Admins.Add(admin1);

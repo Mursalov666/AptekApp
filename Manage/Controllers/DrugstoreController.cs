@@ -94,7 +94,7 @@ namespace Manage.Controllers
                     ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, $"id : {drugstore.Id}, name : {drugstore.Name}, adress : {drugstore.Adress}, contactnumber : {drugstore.ContactNumber}");
 
                 }
-                id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "Please , enter drugstore id :");
+            id: ConsoleHelper.WriteTextWithColor(ConsoleColor.Magenta, "Please , enter drugstore id :");
                 int chosenId;
                 string Id = Console.ReadLine();
                 var result = int.TryParse(Id, out chosenId);
@@ -118,7 +118,7 @@ namespace Manage.Controllers
                         {
                             ConsoleHelper.WriteTextWithColor(ConsoleColor.Gray, $"Owner's id : {owner.Id}, owner's : {owner.Name} ");
                         }
-                        id1: ConsoleHelper.WriteTextWithColor(ConsoleColor.Blue, "Please , enter owner id :");
+                    id1: ConsoleHelper.WriteTextWithColor(ConsoleColor.Blue, "Please , enter owner id :");
                         int ownerId;
                         string id = Console.ReadLine();
                         var results = int.TryParse(id, out ownerId);
@@ -127,16 +127,14 @@ namespace Manage.Controllers
                             var owner = _ownerRepository.Get(o => o.Id == ownerId);
                             if (owner != null)
                             {
-                                Drugstore drugstore1 = new Drugstore()
-                                {
-                                    Id = drugstore.Id,
-                                    Name = newName,
-                                    Adress = newAdress,
-                                    ContactNumber = newNumber,
-                                    Owner = owner
-                                };
+
+                                drugstore.Name = newName;
+                                drugstore.Adress = newAdress;
+                                drugstore.ContactNumber = newNumber;
+                                drugstore.Owner = owner;
+
                                 var creatDrugstore = _drugstoreRepository.Create(drugstore);
-                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"Drugstore is successfully updated {drugstore.Name} {drugstore.Adress} {drugstore.ContactNumber}");
+                                ConsoleHelper.WriteTextWithColor(ConsoleColor.Green, $"Drugstore is successfully updated {drugstore.Name} {drugstore.Adress} {drugstore.ContactNumber} , owner : {owner}");
                             }
                             else
                             {
@@ -184,7 +182,7 @@ namespace Manage.Controllers
                 {
                     ConsoleHelper.WriteTextWithColor(ConsoleColor.Blue, $" Drugstore id : {drugstore.Id} Owner : {drugstore.Owner.Name}");
                 }
-                Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, "Please , enter drugstore id :");
+            Id: ConsoleHelper.WriteTextWithColor(ConsoleColor.DarkMagenta, "Please , enter drugstore id :");
                 int chosenId;
                 string id = Console.ReadLine();
                 var result = int.TryParse(id, out chosenId);
